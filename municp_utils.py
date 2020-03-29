@@ -7,6 +7,7 @@
 @brief Utility module for retrieving congress.gov data.
 """
 
+
 from mechanize import Browser
 from bs4 import BeautifulSoup
 import re
