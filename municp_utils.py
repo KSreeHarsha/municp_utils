@@ -42,6 +42,20 @@ def download_municipality_by_page(first_page,last_page):
 					raise
 				time.sleep(SLEEP_TIME)
 
+		for t in tableMunicipality:
+                        row=t.findAll('tr')
+                        for r in row:
+                             col = r.findAll('td')
+                             C0=col[0].findAll('a')
+                             for c in C0:
+                                 MunicipalityName=c.getText()
+                                 MunicipalityList.append(MunicipalityName)
+
+                print 'Municipalities on this page'
+                for m in MunicipalityList:
+                        print m
+                BASE_URL='http://www.nscb.gov.ph/activestats/psgc/'
+
 
 if __name__=='__main__':
 
