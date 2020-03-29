@@ -15,6 +15,32 @@ import urllib
 import csv
 import optparse
 
+def download_municipality_by_page(first_page,last_page):
+	for page_no in range(first_page,(last_page+1)):
+		mech = Browser()
+		url = "http://www.nscb.gov.ph/activestats/psgc/listmun.asp?whichpage=%i"%(page_no)
+		print url
+		page = mech.open(url)
+
+		count=0
+		NO_TRIES=10
+		pattern1='municipality.asp'
+		expr1 = re.compile(pattern1)
+		MunicipalityList=[]
+		while True:
+			try:
+				html = page.read()
+				soup = BeautifulSoup(html)
+				tags1 = soup.findAll(href=expr1)
+				tableMunicipality=soup.findAll("table",{'width':'550'})
+                            	tries = 0
+                            	break
+			except IOError as ex:
+				print 'ERROR: ' + str(ex)
+				tries += 1
+				if tries > NO_TRIES:
+					raise
+				time.sleep(SLEEP_TIME)
 
 
 if __name__=='__main__':
@@ -34,3 +60,5 @@ if __name__=='__main__':
     last_page=opts.last_page
 
     print "Downloading pages from ",first_page," to ",last_page
+
+    download_municipality_by_page(first_page,last_page)
