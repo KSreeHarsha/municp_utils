@@ -70,6 +70,29 @@ def download_municipality_by_page(first_page,last_page):
                     skip=0
                     path=MunicipalityList[count-1]+".csv"
                     print "Writting File:",path
+		    with open(path, "wb") as csv_file:
+                        writer = csv.writer(csv_file, delimiter=',')
+
+                        for t in tables:
+                                if(skip<1):
+                                        skip=1
+                                        continue
+                                row=t.find('tr')
+                                col = row.findAll('td')
+                                Name = col[0].string
+                                Code = col[1].string
+                                U_R = col[2].string
+                                Population = col[3].string
+                                record = (Name, Code,U_R.strip(),Population)
+                                record= "|".join(record)
+				try:
+                                        writer.writerow(record.split("|"))
+                                except (UnicodeEncodeError, UnicodeDecodeError):
+                                        print "Caught unicode error, could not save record",record
+                                        Name="MISSING NAME(ERROR)"
+                                        record = (Name, Code,U_R.strip(),Population)
+                                        record= "|".join(record)
+                                        writer.writerow(record.split("|"))
 
 
 if __name__=='__main__':
