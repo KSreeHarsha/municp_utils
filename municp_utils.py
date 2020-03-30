@@ -7,23 +7,27 @@
 @brief Utility module for retrieving congress.gov data.
 """
 
-
+# 3rd party imports
 from mechanize import Browser
 from bs4 import BeautifulSoup
+
+# Standard imports
 import re
 import urllib
 import csv
 import optparse
 
-def download_municipality_by_page(first_page,last_page):
+# Globals
+NO_TRIES = 10
+
+def download_municipality_by_page(first_page=1,last_page=1):
 	for page_no in range(first_page,(last_page+1)):
 		mech = Browser()
 		url = "http://www.nscb.gov.ph/activestats/psgc/listmun.asp?whichpage=%i"%(page_no)
 		print url
 		page = mech.open(url)
-
-		count=0
-		NO_TRIES=10
+		
+		count = 0
 		pattern1='municipality.asp'
 		expr1 = re.compile(pattern1)
 		MunicipalityList=[]
