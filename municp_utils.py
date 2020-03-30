@@ -55,6 +55,21 @@ def download_municipality_by_page(first_page,last_page):
                 for m in MunicipalityList:
                         print m
                 BASE_URL='http://www.nscb.gov.ph/activestats/psgc/'
+                for tag in tags1:
+                    count += 1
+                # Construct the daily congress url.
+                    municipality_url = BASE_URL + tag['href']
+                    print '-'*80
+                    print 'Extracting: %s' % municipality_url
+                    municipality_page=mech.open(municipality_url)
+                    html = municipality_page.read()
+                    municipalitySoup = BeautifulSoup(html)
+                    tables = municipalitySoup.findAll("table",{'width':'500','cellpadding':'3'})
+
+
+                    skip=0
+                    path=MunicipalityList[count-1]+".csv"
+                    print "Writting File:",path
 
 
 if __name__=='__main__':
