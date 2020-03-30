@@ -20,6 +20,9 @@ import optparse
 # Globals
 NO_TRIES = 10
 
+BASE_URL='http://www.nscb.gov.ph/activestats/psgc/'
+
+
 def download_municipality_by_page(first_page=1,last_page=1):
 	for page_no in range(first_page,(last_page+1)):
 		mech = Browser()
@@ -58,8 +61,8 @@ def download_municipality_by_page(first_page=1,last_page=1):
                 print 'Municipalities on this page'
                 for m in MunicipalityList:
                         print m
-                BASE_URL='http://www.nscb.gov.ph/activestats/psgc/'
-                for tag in tags1:
+                
+		for tag in tags1:
                     count += 1
                 # Construct the daily congress url.
                     municipality_url = BASE_URL + tag['href']
